@@ -134,11 +134,12 @@ input::placeholder {
   filter: blur(60px);
 }
 
-/* Warm scrim so the editorial photograph blends into the paper ground. */
-.luxe-scrim {
+/* Light fade that blends the editorial photograph into the paper ground
+   (soft at the bottom for the wordmark, strong at the mid-screen seam). */
+.seam-fade {
   background:
-    linear-gradient(to top, var(--color-abyss) 2%, color-mix(in srgb, var(--color-abyss) 72%, transparent) 34%, transparent 62%),
-    linear-gradient(to right, color-mix(in srgb, var(--color-abyss) 55%, transparent), transparent 45%);
+    linear-gradient(to top, var(--color-abyss) 0%, color-mix(in srgb, var(--color-abyss) 55%, transparent) 16%, transparent 40%),
+    linear-gradient(to right, transparent 52%, color-mix(in srgb, var(--color-abyss) 45%, transparent) 78%, var(--color-abyss) 100%);
 }
 
 .wordmark {

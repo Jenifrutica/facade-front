@@ -4,7 +4,12 @@ Interfaz web del caso de estudio *Sistema de Reservas de Hotel*, construida con
 **React + Vite + TypeScript + Tailwind CSS v4 + Motion**. Consume la API del
 backend (patrón **Facade**) y toda la interfaz está en espanol.
 
-En vivo: **<https://aurum.carlosdev.co>** (dominio de ejemplo; ver despliegue).
+En vivo: **<https://aurum.jenilarper.dev>**.
+
+Créditos de fotografías (vía Wikimedia Commons): fachada "Hotel Infante Sagres,
+Porto" por Dale Cruse (CC BY 4.0); suite "Canopy bed of Amantaka Suite" por Basile
+Morin (CC BY-SA 4.0); habitación "Hotel Flor Guest Room" por Evolve&Co (CC BY-SA 4.0);
+"Tropical Noir Chic Boutique Hotel Room in Lisbon" por Dale Cruse (CC BY 4.0).
 
 ---
 

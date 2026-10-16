@@ -85,12 +85,12 @@ export function AuthView() {
       {/* Editorial split — left */}
       <section className="relative hidden overflow-hidden lg:block">
         <img
-          src="https://picsum.photos/seed/aurum-marble-lobby/1700/2100"
-          alt=""
+          src="/hotel.jpg"
+          alt="Fachada de un hotel boutique de lujo"
           className="absolute inset-0 h-full w-full object-cover"
-          style={{ filter: 'brightness(1.02) contrast(1.02) saturate(0.92)' }}
+          style={{ filter: 'brightness(1.04) contrast(1.02) saturate(1.02)' }}
         />
-        <div className="luxe-scrim absolute inset-0" />
+        <div className="seam-fade absolute inset-0" />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

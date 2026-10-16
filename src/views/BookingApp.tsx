@@ -22,9 +22,9 @@ import { addDaysISO, formatCOP, formatDate, statusLabel, todayISO, typeLabel } f
 type Step = 'search' | 'guest' | 'manage' | 'history'
 
 const roomImage: Record<RoomType, string> = {
-  SINGLE: 'https://picsum.photos/seed/aurum-room-single/1200/900',
-  DOUBLE: 'https://picsum.photos/seed/aurum-room-double/1200/900',
-  SUITE: 'https://picsum.photos/seed/aurum-suite-nocturne/1200/900',
+  SINGLE: '/rooms-single.jpg',
+  DOUBLE: '/rooms-double.jpg',
+  SUITE: '/rooms-suite.jpg',
 }
 
 const serviceInfo: Record<ExtraType, { label: string; note: string }> = {
