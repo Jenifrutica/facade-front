@@ -114,3 +114,46 @@ input::placeholder {
     scroll-behavior: auto !important;
   }
 }
+
+/* Slow, cinematic aurora gradient used behind editorial panels. */
+@keyframes aurora {
+  0% {
+    transform: translate3d(-12%, -8%, 0) scale(1.25) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(12%, 8%, 0) scale(1.5) rotate(180deg);
+  }
+  100% {
+    transform: translate3d(-12%, -8%, 0) scale(1.25) rotate(360deg);
+  }
+}
+
+.aurora {
+  animation: aurora 34s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  will-change: transform;
+  filter: blur(60px);
+}
+
+/* Warm scrim so the editorial photograph blends into the paper ground. */
+.luxe-scrim {
+  background:
+    linear-gradient(to top, var(--color-abyss) 2%, color-mix(in srgb, var(--color-abyss) 72%, transparent) 34%, transparent 62%),
+    linear-gradient(to right, color-mix(in srgb, var(--color-abyss) 55%, transparent), transparent 45%);
+}
+
+.wordmark {
+  letter-spacing: -0.03em;
+  line-height: 0.86;
+}
+
+/* Animated gradient stroke for the primary action island. */
+.island {
+  position: relative;
+  background: linear-gradient(120deg, var(--color-gold), var(--color-gold-soft), var(--color-gold));
+  background-size: 220% 100%;
+  transition: background-position 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.island:hover {
+  background-position: 100% 0;
+}
+
