@@ -23,6 +23,15 @@ export function addDaysISO(iso: string, days: number): string {
   return date.toISOString().slice(0, 10)
 }
 
+/**
+ * Upper bound for the booking window: one year from today.
+ */
+export function maxBookingISO(): string {
+  const date = new Date()
+  date.setFullYear(date.getFullYear() + 1)
+  return date.toISOString().slice(0, 10)
+}
+
 export const statusLabel: Record<string, string> = {
   CREATED: 'Reserva creada',
   CHECKED_IN: 'En hotel',

@@ -17,7 +17,7 @@ import type { ExtraType, ReservationView, RoomType, RoomView } from '../lib/api'
 import { useAuth } from '../lib/auth'
 import { useToast } from '../components/Toast'
 import { Button, Field, Panel } from '../components/ui'
-import { addDaysISO, formatCOP, formatDate, statusLabel, todayISO, typeLabel } from '../lib/format'
+import { addDaysISO, formatCOP, formatDate, maxBookingISO, statusLabel, todayISO, typeLabel } from '../lib/format'
 
 type Step = 'search' | 'guest' | 'manage' | 'history'
 
@@ -40,6 +40,7 @@ export function BookingApp() {
   const [step, setStep] = useState<Step>('search')
   const [checkIn, setCheckIn] = useState(todayISO())
   const [checkOut, setCheckOut] = useState(addDaysISO(todayISO(), 2))
+  const maxDate = maxBookingISO()
   const [typeFilter, setTypeFilter] = useState<RoomType | ''>('')
   const [rooms, setRooms] = useState<RoomView[]>([])
   const [searching, setSearching] = useState(false)
@@ -130,12 +131,17 @@ export function BookingApp() {
               key="search"
               checkIn={checkIn}
               checkOut={checkOut}
+              maxDate={maxDate}
               typeFilter={typeFilter}
               searching={searching}
               grouped={grouped}
               hasSearched={rooms.length > 0}
-              onCheckIn={setCheckIn}
-              onCheckOut={setCheckOut}
+              onCheckIn={(value) => {
+                setCheckIn(value)
+                if (checkOut <= value) setCheckOut(addDaysISO(value, 1))
+                else if (checkOut > maxDate) setCheckOut(maxDate)
+              }}
+              onCheckOut={(value) => setCheckOut(value > maxDate ? maxDate : value)}
               onType={setTypeFilter}
               onSearch={search}
               onSelect={(type) => {
@@ -232,6 +238,7 @@ function Header({
 interface SearchProps {
   checkIn: string
   checkOut: string
+  maxDate: string
   typeFilter: RoomType | ''
   searching: boolean
   grouped: [RoomType, { count: number; sample: RoomView }][]
@@ -246,6 +253,7 @@ interface SearchProps {
 function SearchStep({
   checkIn,
   checkOut,
+  maxDate,
   typeFilter,
   searching,
   grouped,
@@ -273,8 +281,8 @@ function SearchStep({
 
       <Panel>
         <div className="grid gap-5 p-6 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto_auto] lg:items-end">
-          <DateField label="Entrada" value={checkIn} min={todayISO()} onChange={onCheckIn} />
-          <DateField label="Salida" value={checkOut} min={checkIn} onChange={onCheckOut} />
+          <DateField label="Entrada" value={checkIn} min={todayISO()} max={maxDate} onChange={onCheckIn} />
+          <DateField label="Salida" value={checkOut} min={checkIn} max={maxDate} onChange={onCheckOut} />
           <div className="flex flex-col gap-2">
             <span className="text-[11px] uppercase tracking-[0.18em] text-muted">Tipo</span>
             <div className="flex gap-2">
@@ -369,11 +377,13 @@ function DateField({
   label,
   value,
   min,
+  max,
   onChange,
 }: {
   label: string
   value: string
   min: string
+  max: string
   onChange: (value: string) => void
 }) {
   return (
@@ -385,6 +395,7 @@ function DateField({
         type="date"
         value={value}
         min={min}
+        max={max}
         onChange={(event) => onChange(event.target.value)}
         className="w-full rounded-xl border border-hairline bg-surface-2 px-4 py-3 text-[15px] text-ink outline-none transition focus:border-gold/70 focus:ring-2 focus:ring-gold/20"
       />
