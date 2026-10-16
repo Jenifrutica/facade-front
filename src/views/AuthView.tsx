@@ -6,8 +6,12 @@ import { useAuth } from '../lib/auth'
 import { useToast } from '../components/Toast'
 import { Field, PasswordField } from '../components/ui'
 import {
+  EMAIL_MAX,
+  NAME_MAX,
+  PASSWORD_MAX,
   email as emailValidator,
   matches,
+  maxLength,
   minLength,
   passwordStrength,
   required,
@@ -42,13 +46,19 @@ export function AuthView() {
       email: runValidators(emailValue, [required('El correo es obligatorio'), emailValidator()]),
       password: runValidators(password, [
         required('La contrasena es obligatoria'),
+        maxLength(PASSWORD_MAX, `Maximo ${PASSWORD_MAX} caracteres`),
         ...(mode === 'register' ? [strongPassword()] : []),
       ]),
     }
     if (mode === 'register') {
-      next.fullName = runValidators(fullName, [required(), minLength(3, 'Minimo 3 caracteres')])
+      next.fullName = runValidators(fullName, [
+        required(),
+        minLength(3, 'Minimo 3 caracteres'),
+        maxLength(NAME_MAX, `Maximo ${NAME_MAX} caracteres`),
+      ])
       next.confirmPassword = runValidators(confirmPassword, [
         required('Debes confirmar la contrasena'),
+        maxLength(PASSWORD_MAX, `Maximo ${PASSWORD_MAX} caracteres`),
         matches(() => password),
       ])
     }
@@ -90,7 +100,7 @@ export function AuthView() {
           className="absolute inset-0 h-full w-full object-cover"
           style={{ filter: 'brightness(1.04) contrast(1.02) saturate(1.02)' }}
         />
-        <div className="seam-fade absolute inset-0" />
+        <div className="hero-fade absolute inset-0" />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -201,10 +211,15 @@ export function AuthView() {
                         placeholder="Jenifer Urbano"
                         value={fullName}
                         onChange={(event) => setFullName(event.target.value)}
+                        maxLength={NAME_MAX}
                         onBlur={() =>
                           setErrors((current) => ({
                             ...current,
-                            fullName: runValidators(fullName, [required(), minLength(3, 'Minimo 3 caracteres')]),
+                            fullName: runValidators(fullName, [
+                              required(),
+                              minLength(3, 'Minimo 3 caracteres'),
+                              maxLength(NAME_MAX, `Maximo ${NAME_MAX} caracteres`),
+                            ]),
                           }))
                         }
                         error={errors.fullName}
@@ -218,6 +233,7 @@ export function AuthView() {
                       placeholder="tu@correo.com"
                       value={emailValue}
                       onChange={(event) => setEmailValue(event.target.value)}
+                      maxLength={EMAIL_MAX}
                       onBlur={() =>
                         setErrors((current) => ({
                           ...current,
@@ -233,11 +249,13 @@ export function AuthView() {
                       placeholder="••••••••"
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
+                      maxLength={PASSWORD_MAX}
                       onBlur={() =>
                         setErrors((current) => ({
                           ...current,
                           password: runValidators(password, [
                             required('La contrasena es obligatoria'),
+                            maxLength(PASSWORD_MAX, `Maximo ${PASSWORD_MAX} caracteres`),
                             ...(mode === 'register' ? [strongPassword()] : []),
                           ]),
                         }))
@@ -253,11 +271,13 @@ export function AuthView() {
                         placeholder="••••••••"
                         value={confirmPassword}
                         onChange={(event) => setConfirmPassword(event.target.value)}
+                        maxLength={PASSWORD_MAX}
                         onBlur={() =>
                           setErrors((current) => ({
                             ...current,
                             confirmPassword: runValidators(confirmPassword, [
                               required('Debes confirmar la contrasena'),
+                              maxLength(PASSWORD_MAX, `Maximo ${PASSWORD_MAX} caracteres`),
                               matches(() => password),
                             ]),
                           }))

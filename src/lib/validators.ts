@@ -15,8 +15,14 @@ export const maxLength =
   (value) =>
     value.length > max ? (message ?? `Maximo ${max} caracteres`) : null
 
-export const email = (): Validator => (value) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : 'Correo electronico no valido'
+export const EMAIL_MAX = 254
+export const PASSWORD_MAX = 72
+export const NAME_MAX = 80
+
+export const email = (): Validator => (value) => {
+  if (value.length > EMAIL_MAX) return `Maximo ${EMAIL_MAX} caracteres`
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : 'Correo electronico no valido'
+}
 
 /**
  * Strong password: at least 8 chars, one uppercase, one lowercase and one digit.

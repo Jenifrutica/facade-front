@@ -415,8 +415,18 @@ function GuestStep({
 
   async function submit() {
     const next = {
-      guestName: guestName.trim().length >= 3 ? null : 'Ingresa el nombre completo (min. 3)',
-      guestEmail: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail) ? null : 'Correo no valido',
+      guestName:
+        guestName.trim().length < 3
+          ? 'Ingresa el nombre completo (min. 3)'
+          : guestName.length > 80
+            ? 'Maximo 80 caracteres'
+            : null,
+      guestEmail:
+        guestEmail.length > 254
+          ? 'Maximo 254 caracteres'
+          : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)
+            ? null
+            : 'Correo no valido',
     }
     setErrors(next)
     if (next.guestName || next.guestEmail || !token) return
@@ -468,11 +478,17 @@ function GuestStep({
           <Field
             label="Nombre completo"
             value={guestName}
+            maxLength={80}
             onChange={(event) => setGuestName(event.target.value)}
             onBlur={() =>
               setErrors((current) => ({
                 ...current,
-                guestName: guestName.trim().length >= 3 ? null : 'Ingresa el nombre completo (min. 3)',
+                guestName:
+                  guestName.trim().length < 3
+                    ? 'Ingresa el nombre completo (min. 3)'
+                    : guestName.length > 80
+                      ? 'Maximo 80 caracteres'
+                      : null,
               }))
             }
             error={errors.guestName}
@@ -482,11 +498,17 @@ function GuestStep({
             label="Correo electronico"
             type="email"
             value={guestEmail}
+            maxLength={254}
             onChange={(event) => setGuestEmail(event.target.value)}
             onBlur={() =>
               setErrors((current) => ({
                 ...current,
-                guestEmail: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail) ? null : 'Correo no valido',
+                guestEmail:
+                  guestEmail.length > 254
+                    ? 'Maximo 254 caracteres'
+                    : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)
+                      ? null
+                      : 'Correo no valido',
               }))
             }
             error={errors.guestEmail}
@@ -495,6 +517,7 @@ function GuestStep({
           <Field
             label="Documento (opcional)"
             value={guestDocument}
+            maxLength={30}
             onChange={(event) => setGuestDocument(event.target.value)}
             placeholder="10203040"
           />
