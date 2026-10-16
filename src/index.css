@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --color-abyss: #f7f4ee;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1ece2;
+  --color-hairline: #e2dccd;
+  --color-ink: #1c1915;
+  --color-muted: #6f675a;
+  --color-gold: #8a6716;
+  --color-gold-soft: #a98a3a;
+  --color-danger: #b23a2a;
+
+  --font-display: "Bodoni Moda Variable", "Cormorant Garamond", serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+
+  --ease-room: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-abyss);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* A single clear room: one light ground for the whole app. */
+.room-ground {
+  background:
+    radial-gradient(120% 80% at 82% -12%, rgba(138, 103, 22, 0.10), transparent 55%),
+    radial-gradient(90% 70% at 6% 110%, rgba(138, 103, 22, 0.06), transparent 60%),
+    var(--color-abyss);
+}
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.018;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hairline {
+  border: 1px solid var(--color-hairline);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  backdrop-filter: blur(22px);
+}
+
+/* Concentric inner/outer enclosure for panels (double-bezel). */
+.bezel {
+  padding: 0.4rem;
+  border-radius: 1.4rem;
+  background: rgba(28, 25, 21, 0.025);
+  border: 1px solid rgba(28, 25, 21, 0.07);
+  box-shadow: 0 20px 50px -30px rgba(28, 25, 21, 0.35);
+}
+
+.bezel-core {
+  border-radius: calc(1.4rem - 0.4rem);
+  background: var(--color-surface);
+  border: 1px solid rgba(28, 25, 21, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+input,
+select,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::placeholder {
+  color: color-mix(in srgb, var(--color-muted) 72%, transparent);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-abyss);
+}
+::-webkit-scrollbar-thumb {
+  background: #d8d1c1;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
